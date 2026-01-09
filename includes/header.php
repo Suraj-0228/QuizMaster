@@ -28,6 +28,18 @@ if (isLoggedIn() && isAdmin()) {
     // Admin Layout
     include_once __DIR__ . '/admin-sidebar.php';
     echo '<div class="admin-main-content d-flex flex-column min-vh-100">';
+    
+    // Mobile Sidebar Toggle
+    echo '
+    <nav class="navbar navbar-dark bg-dark-glass d-lg-none sticky-top shadow-sm p-3 mb-4 border-bottom border-light border-opacity-10">
+        <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
+        <span class="navbar-brand mb-0 h1">QuizMaster</span>
+            <button class="btn btn-outline-light" type="button" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    ';
 } else {
     // Student/Public Layout
     include_once __DIR__ . '/navbar.php';

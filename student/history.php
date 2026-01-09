@@ -88,6 +88,7 @@
             </div>
         <?php endif; ?>
 </div>
+</div>
 
 <style>
 .bg-success-subtle { background-color: rgba(16, 185, 129, 0.1); }

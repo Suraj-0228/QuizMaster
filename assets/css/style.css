@@ -379,9 +379,9 @@ a:hover {
 
 .timeline-date {
     position: absolute;
-    left: -140px;
+    left: -188px;
     top: -2px;
-    width: 100px;
+    width: 140px;
     text-align: right;
     color: var(--muted-text);
     font-size: 0.9rem;
@@ -938,7 +938,7 @@ select.premium-control option {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 1050;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
 }
 

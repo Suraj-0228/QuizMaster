@@ -64,10 +64,10 @@
             <!-- Navigation Tabs -->
             <ul class="nav nav-pills nav-pills-custom mb-4" id="profileTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">Overview</button>
+                    <button class="nav-link active px-2" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">Overview</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="security-tab" data-bs-toggle="pill" data-bs-target="#security" type="button" role="tab">Security & Settings</button>
+                    <button class="nav-link px-2" id="security-tab" data-bs-toggle="pill" data-bs-target="#security" type="button" role="tab">Security & Settings</button>
                 </li>
             </ul>
             

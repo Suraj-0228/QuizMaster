@@ -22,7 +22,7 @@ CREATE TABLE users (
 
 /* Default Admin User */
 INSERT INTO users (username, email, password, role)
-VALUES ('admin', 'admin@quiz.com', 'admin123', 'admin');
+VALUES ('admin', 'admin@quiz.com', 'adminPassword', 'admin');
 
 
 /* =========================================

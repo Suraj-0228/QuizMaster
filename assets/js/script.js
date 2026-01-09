@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Tooltip initialization if using Bootstrap
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -13,4 +13,24 @@ document.addEventListener('DOMContentLoaded', function() {
             bsAlert.close();
         }, 5000);
     });
+    // Admin Sidebar Toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const adminSidebar = document.querySelector('.admin-sidebar');
+
+    if (sidebarToggle && adminSidebar) {
+        sidebarToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            adminSidebar.classList.toggle('show');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function (e) {
+            if (adminSidebar.classList.contains('show') &&
+                !adminSidebar.contains(e.target) &&
+                e.target !== sidebarToggle &&
+                !sidebarToggle.contains(e.target)) {
+                adminSidebar.classList.remove('show');
+            }
+        });
+    }
 });
