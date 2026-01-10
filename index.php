@@ -8,7 +8,7 @@ include_once 'includes/header.php';
     <div class="hero-shape" style="top: -100px; right: -100px;"></div>
     <div class="hero-shape" style="bottom: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, rgba(13, 27, 42, 0) 70%);"></div>
     
-    <div class="row align-items-center">
+    <div class="row align-items-center ps-5">
         <div class="col-lg-7">
             <h1 class="display-3 fw-bold mb-4 lh-tight">
                 Unlock Your Potential with <br>
@@ -72,7 +72,7 @@ include_once 'includes/header.php';
 </section>
 
 <!-- Stats Strip -->
-<div class="row g-4 mb-5">
+<div class="row g-4 my-5">
     <div class="col-md-4">
         <div class="stat-card h-100">
             <h2 class="display-4 fw-bold text-light mb-0">10k+</h2>

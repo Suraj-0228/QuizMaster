@@ -502,11 +502,13 @@ a:hover {
 
 /* Footer Styles */
 .footer {
-    background: rgba(13, 27, 42, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(27, 38, 59, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(119, 141, 169, 0.1);
     padding-top: 5rem;
     padding-bottom: 3rem;
-    color: #a0aec0;
+    color: var(--muted-text);
     margin-top: auto;
 }
 
@@ -517,14 +519,14 @@ a:hover {
 }
 
 .footer-heading {
-    color: #fff;
+    color: var(--light-text);
     font-weight: 600;
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
 }
 
 .footer-link {
-    color: #a0aec0;
+    color: var(--muted-text);
     text-decoration: none;
     display: block;
     margin-bottom: 0.8rem;
@@ -532,7 +534,7 @@ a:hover {
 }
 
 .footer-link:hover {
-    color: #fff;
+    color: var(--light-text);
     transform: translateX(5px);
 }
 

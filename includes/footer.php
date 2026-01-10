@@ -4,7 +4,7 @@
     </div> <!-- End Admin Main Content -->
 <?php endif; ?>
 
-    <footer class="footer mt-auto py-4 bg-dark-glass border-top border-secondary border-opacity-25 relative-footer">
+    <footer class="footer mt-auto py-5 relative-footer">
         <div class="container">
             <div class="row g-5">
                 <!-- Brand Column -->
@@ -69,7 +69,7 @@
                     <p class="mb-0 small text-muted">&copy; <?php echo date('Y'); ?> QuizMaster. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end d-none d-md-block">
-                    <p class="mb-0 small text-muted">Made with <i class="fas fa-heart text-danger mx-1"></i> for learning</p>
+                    <p class="mb-0 small text-muted">Built with <i class="fas fa-lightbulb text-warning mx-1"></i> for learning and growth</p>
                 </div>
             </div>
         </div>
