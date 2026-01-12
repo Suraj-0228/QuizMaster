@@ -1,4 +1,4 @@
-<?php include_once '../components/review-process.php'; ?>
+<?php include_once '../controllers/review-process.php'; ?>
 
 <div class="row justify-content-center">
     <div class="col-lg-10">

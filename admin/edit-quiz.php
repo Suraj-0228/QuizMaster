@@ -1,4 +1,4 @@
-<?php include_once 'components/edit-quiz-process.php'; ?>
+<?php include_once 'controllers/edit-quiz-process.php'; ?>
 
 <div class="container py-4">
     <div class="row justify-content-center">

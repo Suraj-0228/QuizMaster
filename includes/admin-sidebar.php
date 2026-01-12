@@ -24,6 +24,12 @@
             </a>
         </li>
         <li>
+            <a href="<?php echo base_url('admin/messages.php'); ?>" class="nav-link text-white <?php echo basename($_SERVER['PHP_SELF']) == 'messages.php' ? 'active' : ''; ?>">
+                <i class="fas fa-envelope me-2" style="width: 20px;"></i>
+                Messages
+            </a>
+        </li>
+        <li>
             <a href="<?php echo base_url('admin/reports.php'); ?>" class="nav-link text-white <?php echo basename($_SERVER['PHP_SELF']) == 'reports.php' ? 'active' : ''; ?>">
                 <i class="fas fa-chart-bar me-2" style="width: 20px;"></i>
                 Reports

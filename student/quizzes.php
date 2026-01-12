@@ -1,4 +1,4 @@
-<?php include_once '../components/quizzes-process.php'; ?>
+<?php include_once '../controllers/quizzes-process.php'; ?>
 
 <!-- Header Section -->
 <div class="row align-items-center mb-5">

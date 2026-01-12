@@ -83,4 +83,80 @@ function flash($name = '', $message = '', $class = 'success') {
 function base_url($path = '') {
     return '/QuizMaster/' . ltrim($path, '/');
 }
+/**
+ * Check Maintenance Mode
+ */
+function checkMaintenanceMode() {
+    global $pdo;
+
+    // Allowed scripts (pages that should always be accessible)
+    // login.php must be allowed so admins can log in
+    $current_script = basename($_SERVER['PHP_SELF']);
+    $allowed_scripts = ['maintenance.php', 'login.php', 'register.php'];
+
+    // Also allow scripts in specific processing directories if needed, 
+    // but usually checking the main page logic is enough.
+    // If the request is a POST (e.g. login process), we might let it through 
+    // or rely on the referer/destination check. 
+    // For simplicity, let's allow 'components' directly if accessed? 
+    // Actually, components usually redirect back to pages. 
+    
+    // If we are on an allowed page, stop checking
+    if (in_array($current_script, $allowed_scripts)) {
+        return;
+    }
+
+    // Admins always bypass
+    if (isAdmin()) {
+        return;
+    }
+
+    // Check DB for maintenance mode
+    // We assume $pdo is available via global from database.php inclusion
+    try {
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'maintenance_mode'");
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result && $result['setting_value'] === '1') {
+                redirect('/QuizMaster/maintenance.php');
+            }
+        }
+    } catch (PDOException $e) {
+        // Fail gracefully or log error
+    }
+}
+
+/**
+ * Get Setting Value
+ */
+function getSetting($key, $default = null) {
+    global $pdo;
+    try {
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+            $stmt->execute([$key]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                return $result['setting_value'];
+            }
+        }
+    } catch (PDOException $e) {
+        // error
+    }
+    return $default;
+}
+
+/**
+ * Check if registration is allowed
+ */
+function isRegistrationAllowed() {
+    // Default to allowed (1) if setting missing, or strict check?
+    // Let's assume strict: if setting exists and is 0, then false. 
+    // If setting doesn't exist, maybe assume true? Or false.
+    // Given the request, let's assume default is TRUE if not set.
+    $val = getSetting('allow_registration', '1'); 
+    return $val === '1';
+}
 ?>

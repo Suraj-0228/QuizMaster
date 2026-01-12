@@ -24,20 +24,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Proceed directly to DB check
     {
-        $stmt = $pdo->prepare("SELECT id, username, password, role FROM users WHERE email = ? OR username = ?");
+        // Check for blocked status
+        $stmt = $pdo->prepare("SELECT id, username, password, role, is_blocked FROM users WHERE email = ? OR username = ?");
         $stmt->execute([$email, $email]);
         $user = $stmt->fetch();
 
         if ($user && $password === $user['password']) { // Plain text comparison
-            // Login success
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-
-            if ($user['role'] === 'admin') {
-                redirect('admin/dashboard.php');
+            
+            // Check if blocked
+            if (isset($user['is_blocked']) && $user['is_blocked'] == 1) {
+                $error = "Your account has been suspended by the administrator.";
             } else {
-                redirect('student/dashboard.php');
+                // Login success
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+
+                if ($user['role'] === 'admin') {
+                    redirect('admin/dashboard.php');
+                } else {
+                    redirect('student/dashboard.php');
+                }
             }
         } else {
             $error = "Invalid credentials";

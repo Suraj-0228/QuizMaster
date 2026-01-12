@@ -1,4 +1,4 @@
-<?php include_once 'components/manage-quiz.php'; ?>
+<?php include_once 'controllers/manage-quiz.php'; ?>
 
 <div class="container py-4">
     <!-- Hero Header -->

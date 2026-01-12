@@ -17,12 +17,14 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'student') NOT NULL DEFAULT 'student',
+    is_blocked TINYINT(1) DEFAULT 0,
+    bio TEXT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /* Default Admin User */
-INSERT INTO users (username, email, password, role)
-VALUES ('admin', 'admin@quiz.com', 'adminPassword', 'admin');
+INSERT INTO users (username, email, password, role, is_blocked, bio)
+VALUES ('admin', 'admin@quiz.com', 'adminPassword', 'admin', 0, 'Default Admin User!');
 
 
 /* =========================================

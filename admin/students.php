@@ -1,4 +1,4 @@
-<?php include_once 'components/students-process.php'; ?>
+<?php include_once 'controllers/students-process.php'; ?>
 
 <div class="container py-4">
     <!-- Hero Header -->
@@ -61,9 +61,30 @@
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-end pe-4 py-3">
-                                        <a href="student-details.php?id=<?php echo $student['id']; ?>" class="btn btn-icon btn-sm btn-outline-info rounded-circle border-0 bg-transparent opacity-75 hover-opacity-100" title="View History">
-                                            <i class="fas fa-chart-line"></i>
-                                        </a>
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="student-details.php?id=<?php echo $student['id']; ?>" class="btn btn-icon btn-sm btn-outline-info rounded-circle" title="View History">
+                                                <i class="fas fa-chart-line"></i>
+                                            </a>
+                                            
+                                            <!-- Block Toggle -->
+                                            <form action="" method="POST" class="d-inline">
+                                                <input type="hidden" name="user_id" value="<?php echo $student['id']; ?>">
+                                                <input type="hidden" name="action" value="toggle_block">
+                                                <button type="submit" class="btn btn-icon btn-sm <?php echo $student['is_blocked'] ? 'btn-danger' : 'btn-outline-warning'; ?> rounded-circle" 
+                                                        title="<?php echo $student['is_blocked'] ? 'Unblock Student' : 'Block Student'; ?>">
+                                                    <i class="fas <?php echo $student['is_blocked'] ? 'fa-ban' : 'fa-user-lock'; ?>"></i>
+                                                </button>
+                                            </form>
+                                            
+                                            <!-- Delete -->
+                                            <form action="" method="POST" class="d-inline" onsubmit="return confirm('Are you sure? This will delete the student and all their quiz attempts.');">
+                                                <input type="hidden" name="user_id" value="<?php echo $student['id']; ?>">
+                                                <input type="hidden" name="action" value="delete">
+                                                <button type="submit" class="btn btn-icon btn-sm btn-outline-danger rounded-circle" title="Delete Student">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

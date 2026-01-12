@@ -28,7 +28,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // } else { flash... }
     }
     
-    // 2. Delete Account
+
+
+    // 2. Update Profile (Username, Email, Bio)
+    if (isset($_POST['update_profile'])) {
+        $new_username = trim($_POST['username']);
+        $new_email = trim($_POST['email']);
+        $new_bio = trim($_POST['bio']);
+        
+        // Basic Validation
+        if (empty($new_username) || empty($new_email)) {
+             flash('message', 'Username and Email are required.', 'warning');
+        } else {
+            // Check for duplicate username/email (excluding current user)
+            $check = $pdo->prepare("SELECT id FROM users WHERE (username = ? OR email = ?) AND id != ?");
+            $check->execute([$new_username, $new_email, $user_id]);
+            
+            if ($check->rowCount() > 0) {
+                 flash('message', 'Username or Email already taken.', 'danger');
+            } else {
+                // Update Database
+                $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, bio = ? WHERE id = ?");
+                if ($stmt->execute([$new_username, $new_email, $new_bio, $user_id])) {
+                    // Update Session Username if changed
+                    $_SESSION['username'] = $new_username;
+                    
+                    flash('message', 'Profile updated successfully!', 'success');
+                    header("Location: profile.php");
+                    exit;
+                } else {
+                    flash('message', 'Error updating profile.', 'danger');
+                }
+            }
+        }
+    }
+    
+    // 3. Delete Account
     if (isset($_POST['delete_account'])) {
         $confirm_delete = $_POST['confirm_delete'];
         if ($confirm_delete === 'DELETE') {
@@ -51,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch User Data
-$stmt = $pdo->prepare("SELECT username, email, role, created_at FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT username, email, role, bio, created_at FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 

@@ -1,4 +1,4 @@
-<?php include_once 'components/questions-process.php'; ?>
+<?php include_once 'controllers/questions-process.php'; ?>
 
 <div class="container py-4">
     <div class="row justify-content-center">

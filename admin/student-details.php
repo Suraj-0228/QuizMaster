@@ -1,4 +1,4 @@
-<?php include_once 'components/details.php'; ?>
+<?php include_once 'controllers/details.php'; ?>
 
 <div class="container py-4">
     <!-- Back Navigation -->

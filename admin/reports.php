@@ -1,4 +1,4 @@
-<?php include_once 'components/reports-process.php'; ?>
+<?php include_once 'controllers/reports-process.php'; ?>
 
 <div class="container py-4">
     <!-- Hero Header -->

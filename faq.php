@@ -89,9 +89,26 @@ include_once 'includes/header.php';
 
         </div>
         
-        <div class="text-center mt-5">
-            <p class="text-muted">Still have questions?</p>
-            <a href="contact.php" class="btn btn-primary rounded-pill px-4">Contact Support</a>
+        <div class="mt-5">
+            <div class="glass-card support-card p-5 rounded-4 text-center border-0">
+                <div class="support-bg-shape"></div>
+                
+                <div class="position-relative z-1">
+                    <div class="avatar-group mb-4">
+                        <div class="avatar bg-primary">JS</div>
+                        <div class="avatar bg-success">ED</div>
+                        <div class="avatar bg-info">MJ</div>
+                        <div class="avatar bg-warning text-dark"><i class="fas fa-plus"></i></div>
+                    </div>
+                    
+                    <h3 class="fw-bold text-light mb-2">Still have questions?</h3>
+                    <p class="text-muted mb-4 max-w-md mx-auto">Can't find the answer you're looking for? Please chat to our friendly team.</p>
+                    
+                    <a href="contact.php" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow-lg hover-lift">
+                        Get in Touch
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

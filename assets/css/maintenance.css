@@ -1,0 +1,73 @@
+body {
+    background-image: url('/QuizMaster/assets/images/hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.maintenance-card {
+    background: rgba(27, 38, 59, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(119, 141, 169, 0.2);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    overflow: hidden;
+}
+
+.maintenance-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #FFD166, #EF476F);
+}
+
+.gear-icon {
+    color: #FFD166;
+    animation: spin 10s linear infinite;
+}
+
+.tool-icon {
+    color: #EF476F;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.btn-glow {
+    box-shadow: 0 0 15px rgba(65, 90, 119, 0.5);
+    transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 25px rgba(65, 90, 119, 0.8);
+    transform: translateY(-2px);
+}

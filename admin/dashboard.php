@@ -1,4 +1,4 @@
-<?php include_once 'components/dash-process.php'; ?>
+<?php include_once 'controllers/dash-process.php'; ?>
 
 <div class="container py-5">
     <!-- Hero Section -->

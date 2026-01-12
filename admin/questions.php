@@ -1,4 +1,4 @@
-<?php include_once 'components/que-process.php'; ?>
+<?php include_once 'controllers/que-process.php'; ?>
 
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-5">

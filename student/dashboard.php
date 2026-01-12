@@ -1,4 +1,4 @@
-<?php include_once '../components/dashboard-process.php'; ?>
+<?php include_once '../controllers/dashboard-process.php'; ?>
 
 <!-- Welcome Banner -->
 <div class="row mb-5 align-items-center">

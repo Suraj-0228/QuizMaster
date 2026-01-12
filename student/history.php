@@ -1,4 +1,4 @@
-<?php include_once '../components/history-process.php'; ?>
+<?php include_once '../controllers/history-process.php'; ?>
 
 <div class="row mb-5">
     <div class="col-md-8">

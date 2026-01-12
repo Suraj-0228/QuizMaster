@@ -1,4 +1,4 @@
-<?php include_once 'components/contact-process.php'; ?>
+<?php include_once 'controllers/contact-process.php'; ?>
 
 <div class="row align-items-center py-5">
     <!-- Contact Info Column -->

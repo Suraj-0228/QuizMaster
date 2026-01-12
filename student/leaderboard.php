@@ -1,4 +1,4 @@
-<?php include_once '../components/leaderboard-process.php'; ?>
+<?php include_once '../controllers/leaderboard-process.php'; ?>
 
 <div class="row mb-5 text-center">
     <div class="col-12">

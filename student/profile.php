@@ -1,4 +1,4 @@
-<?php include_once '../components/profile-process.php'; ?>
+<?php include_once '../controllers/profile-process.php'; ?>
 
 <!-- Profile Cover -->
 <div class="profile-cover shadow-lg mb-4">
@@ -17,7 +17,7 @@
                     <span class="fw-bold"><?php echo strtoupper(substr($user['username'], 0, 1)); ?></span>
                     <div class="position-absolute bottom-0 end-0 p-2 bg-success border border-dark rounded-circle me-1 mb-1 shadow"></div>
                 </div>
-                
+            
                 <h3 class="text-light fw-bold mb-1"><?php echo sanitize($user['username']); ?></h3>
                 <p class="text-muted mb-4 small"><i class="fas fa-envelope me-2"></i><?php echo sanitize($user['email']); ?></p>
                 
@@ -51,7 +51,7 @@
                             </div>
                             <div>
                                 <small class="text-muted d-block text-uppercase" style="font-size: 0.7rem;">Region</small>
-                                <span class="text-light fw-bold">Global</span>
+                                <span class="text-light fw-bold">India</span>
                             </div>
                         </div>
                     </div>
@@ -107,11 +107,14 @@
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="text-light mb-0">About Me</h5>
-                                <button class="btn btn-sm btn-outline-secondary rounded-pill">Edit Bio</button>
+                                <button class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
                             </div>
                             <p class="text-muted mb-0">
-                                Hello, I'm <strong class="text-light"><?php echo sanitize($user['username']); ?></strong>. I'm a passionate learner using QuizMaster to improve my skills.
-                                Challenge me to a quiz!
+                                <?php if (!empty($user['bio'])): ?>
+                                    <?php echo nl2br(sanitize($user['bio'])); ?>
+                                <?php else: ?>
+                                    Hello, I'm <strong class="text-light"><?php echo sanitize($user['username']); ?></strong>. I'm a passionate learner using QuizMaster to improve my skills. Challenge me to a quiz!
+                                <?php endif; ?>
                             </p>
                         </div>
                     </div>
@@ -122,33 +125,47 @@
                     <div class="row g-4">
                         <!-- Password Change -->
                         <div class="col-md-12">
-                            <div class="card glass-card border-0 shadow">
-                                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
-                                    <h5 class="text-light mb-0">Change Password</h5>
+                            <div class="card glass-card border-0 shadow overflow-hidden">
+                                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-4 px-4 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h5 class="text-light fw-bold mb-1">Security Settings</h5>
+                                        <p class="text-muted small mb-0">Manage your password and account security</p>
+                                    </div>
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded-circle">
+                                        <i class="fas fa-shield-alt text-primary fa-lg"></i>
+                                    </div>
                                 </div>
                                 <div class="card-body p-4">
                                     <form action="" method="POST">
                                         <input type="hidden" name="update_password" value="1">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <div class="premium-input-group">
+                                        
+                                        <div class="row g-4 align-items-end">
+                                            <div class="col-md-5">
+                                                <div class="premium-input-group mb-0">
                                                      <i class="fas fa-lock input-icon"></i>
                                                     <input type="password" class="premium-control" name="password" placeholder=" ">
                                                     <i class="fas fa-eye password-toggle"></i>
                                                     <label>New Password</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div class="premium-input-group">
+                                            <div class="col-md-5">
+                                                <div class="premium-input-group mb-0">
                                                     <i class="fas fa-check-circle input-icon"></i>
                                                     <input type="password" class="premium-control" name="confirm_password" placeholder=" ">
                                                     <i class="fas fa-eye password-toggle"></i>
                                                     <label>Confirm Password</label>
                                                 </div>
                                             </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-primary rounded-pill w-100 py-2 shadow-sm">
+                                                    Update
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="text-end">
-                                            <button type="submit" class="btn btn-primary rounded-pill px-4">Update Password</button>
+                                        
+                                        <div class="mt-3 d-flex align-items-center text-muted small">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <span>Make sure your password is strong and secure.</span>
                                         </div>
                                     </form>
                                 </div>
@@ -198,6 +215,58 @@
             </div>
         </div>
     </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal (Premium Redesign) -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content glass-modal border-0 overflow-hidden">
+            <div class="modal-header border-0 px-5 pt-5 pb-0">
+                <div>
+                    <h4 class="modal-title fw-bold text-light mb-1">Edit Profile</h4>
+                    <p class="text-muted small mb-0">Update your personal information</p>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5">
+                <form action="" method="POST">
+                    <input type="hidden" name="update_profile" value="1">
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-light small fw-bold mb-2">USERNAME</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark-glass  text-secondary"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control premium-control ps-2" name="username" value="<?php echo sanitize($user['username']); ?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-light small fw-bold mb-2">EMAIL ADDRESS</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark-glass  text-secondary"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control premium-control ps-2" name="email" value="<?php echo sanitize($user['email']); ?>" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="form-label text-light small fw-bold mb-2">BIO / ABOUT ME</label>
+                        <div class="input-group">
+                             <span class="input-group-text bg-dark-glass  text-secondary align-items-start pt-3"><i class="fas fa-align-left"></i></span>
+                            <textarea class="form-control premium-control ps-2" name="bio" rows="4" placeholder="Tell us about yourself..."><?php echo sanitize($user['bio'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="form-text text-muted text-end">Share a brief description of who you are.</div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-3">
+                        <button type="button" class="btn btn-outline-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-lg">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -221,14 +290,62 @@
         #0a2a66,
         #081a3a
     );
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: #ffffff;
     font-size: 32px;
     box-shadow:
         0 0 20px rgba(47, 124, 255, 0.6),
         inset 0 0 10px rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Fix icon positioning in premium-input-group */
+.premium-input-group .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+    z-index: 5;
+    pointer-events: none; /* Just in case */
+}
+
+/* Premium Modal Styles */
+.glass-modal {
+    background: rgba(27, 38, 59, 0.95); /* Matches --card-bg with opacity */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(119, 141, 169, 0.2);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.premium-control {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(119, 141, 169, 0.2);
+    /* border-left: 0; Removed global removal */
+    color: var(--light-text) !important;
+    transition: all 0.3s ease;
+}
+
+/* Modal Input Groups: Remove left border to merge with icon */
+.input-group .premium-control {
+    border-left: 0;
+}
+
+.premium-control:focus {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--dusk-blue);
+    box-shadow: none;
+}
+
+.input-group-text {
+    border: 1px solid rgba(119, 141, 169, 0.2);
+    border-right: 0;
+    color: var(--secondary);
+}
+
+.form-control::placeholder {
+    color: rgba(224, 225, 221, 0.3); /* Based on --alabaster-grey */
 }
 
 </style>

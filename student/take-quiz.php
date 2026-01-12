@@ -1,4 +1,4 @@
-<?php include_once '../components/take-quiz-process.php'; ?>
+<?php include_once '../controllers/take-quiz-process.php'; ?>
 
 <!-- Sticky Header info bar -->
 <div class="sticky-top bg-dark-glass border-bottom border-secondary mb-4 py-3 shadow-sm" style="top: 70px; z-index: 900;">

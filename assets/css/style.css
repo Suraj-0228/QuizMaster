@@ -987,3 +987,106 @@ select.premium-control option {
         width: 100%;
     }
 }
+
+/* Premium Index Refinements */
+.step-number-badge {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
+    color: #1B263B;
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+    z-index: 2;
+}
+
+@media (min-width: 768px) {
+    .step-connector {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+        z-index: 0;
+    }
+
+    .col-md-4:last-child .step-connector {
+        display: none;
+    }
+}
+
+.testimonial-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.testimonial-quote-icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 5rem;
+    opacity: 0.05;
+    color: var(--alabaster-grey);
+    font-family: serif;
+    line-height: 1;
+}
+
+.category-icon-wrapper {
+    transition: all 0.3s ease;
+}
+
+.card:hover .category-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Support Card & Avatar Group */
+.avatar-group {
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-group .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid var(--card-bg);
+    margin-left: -15px;
+    position: relative;
+    transition: transform 0.3s ease;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--dusk-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.avatar-group .avatar:first-child {
+    margin-left: 0;
+}
+
+.avatar-group .avatar:hover {
+    transform: translateY(-5px);
+    z-index: 10;
+}
+
+.support-card {
+    background: radial-gradient(circle at top right, rgba(65, 90, 119, 0.2), rgba(27, 38, 59, 0.6) 80%);
+    position: relative;
+    overflow: hidden;
+}
+
+.support-bg-shape {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(119, 141, 169, 0.05);
+    border-radius: 50%;
+    z-index: 0;
+}
