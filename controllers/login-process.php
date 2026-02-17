@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$email, $email]);
         $user = $stmt->fetch();
 
-        if ($user && $password === $user['password']) { // Plain text comparison
+        if ($user && password_verify($password, $user['password'])) {
             
             // Check if blocked
             if (isset($user['is_blocked']) && $user['is_blocked'] == 1) {

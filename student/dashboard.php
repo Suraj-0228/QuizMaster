@@ -126,19 +126,7 @@
 
     <!-- Quick Actions -->
     <div class="col-lg-4">
-        <!-- Leaderboard Card -->
-        <div class="card border-0 shadow-lg mb-4 glass-card overflow-hidden">
-             <div class="card-body p-4 d-flex align-items-center">
-                <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
-                    <i class="fas fa-crown fa-2x text-warning"></i>
-                </div>
-                <div>
-                    <h5 class="text-light mb-1">Leaderboard</h5>
-                    <p class="text-muted small mb-0">See where you rank!</p>
-                </div>
-                <a href="leaderboard.php" class="btn btn-outline-warning rounded-pill ms-auto btn-sm">View</a>
-            </div>
-        </div>
+
 
         <div class="card border-0 shadow-lg overflow-hidden position-relative mb-4">
             <div class="card-body p-4 text-center">

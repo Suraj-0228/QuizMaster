@@ -30,7 +30,6 @@
                     <ul class="list-unstyled">
                         <li><a href="<?php echo base_url(); ?>" class="footer-link">Home</a></li>
                         <li><a href="<?php echo base_url('student/quizzes.php'); ?>" class="footer-link">Quizzes</a></li>
-                        <li><a href="<?php echo base_url('student/leaderboard.php'); ?>" class="footer-link">Leaderboard</a></li>
                         <li><a href="<?php echo base_url('about.php'); ?>" class="footer-link">About Us</a></li>
                     </ul>
                 </div>

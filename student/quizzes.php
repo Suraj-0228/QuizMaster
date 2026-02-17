@@ -7,9 +7,17 @@
         <p class="text-muted lead">Choose a topic and challenge yourself today.</p>
     </div>
     <div class="col-md-6">
-        <div class="position-relative">
-            <input type="text" id="quizSearch" class="form-control form-control-lg bg-dark-glass border-secondary text-light ps-5 rounded-pill" placeholder="Search for quizzes...">
-            <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+        <div class="d-flex gap-2">
+            <div class="position-relative flex-grow-1">
+                <input type="text" id="quizSearch" class="form-control bg-dark-glass border-secondary text-light ps-5 rounded-pill" placeholder="Search for quizzes...">
+                <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+            </div>
+            <select id="categoryFilter" class="px-3 form-select bg-dark-glass border-secondary text-light rounded-pill" style="max-width: 200px;">
+                <option value="">All Categories</option>
+                <?php foreach($categories as $category): ?>
+                    <option value="<?php echo sanitize($category['name']); ?>"><?php echo sanitize($category['name']); ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </div>
 </div>
@@ -18,11 +26,11 @@
 <div class="row g-4" id="quizGrid">
     <?php if (count($quizzes) > 0): ?>
         <?php foreach($quizzes as $quiz): ?>
-            <div class="col-md-6 col-lg-4 quiz-item">
+            <div class="col-md-6 col-lg-4 quiz-item" data-category="<?php echo sanitize($quiz['category_name']); ?>">
                 <div class="card h-100 glass-card border-0 shadow-lg hover-lift">
                     <div class="card-body d-flex flex-column p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2">
+                            <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 category-badge">
                                 <?php echo sanitize($quiz['category_name']); ?>
                             </span>
                             <?php if($quiz['time_limit'] > 0): ?>
@@ -64,21 +72,33 @@
 </div>
 
 <script>
-document.getElementById('quizSearch').addEventListener('keyup', function() {
-    let filter = this.value.toLowerCase();
-    let items = document.querySelectorAll('.quiz-item');
-    
-    items.forEach(function(item) {
-        let title = item.querySelector('.card-title').textContent.toLowerCase();
-        let cat = item.querySelector('.badge').textContent.toLowerCase();
+const searchInput = document.getElementById('quizSearch');
+const categoryFilter = document.getElementById('categoryFilter');
+const quizItems = document.querySelectorAll('.quiz-item');
+
+function filterQuizzes() {
+    const searchText = searchInput.value.toLowerCase();
+    const selectedCategory = categoryFilter.value.toLowerCase();
+
+    quizItems.forEach(item => {
+        const title = item.querySelector('.card-title').textContent.toLowerCase();
+        const category = item.querySelector('.category-badge').textContent.toLowerCase();
         
-        if (title.includes(filter) || cat.includes(filter)) {
+        const matchesSearch = title.includes(searchText);
+        const matchesCategory = selectedCategory === '' || category.includes(selectedCategory); // strict equality might not work if badge has whitespace, includes is safer or trim()
+
+        if (matchesSearch && matchesCategory) {
             item.style.display = '';
         } else {
             item.style.display = 'none';
         }
     });
-});
+
+    // Show/Hide "No results" message if needed (optional enhancement)
+}
+
+searchInput.addEventListener('keyup', filterQuizzes);
+categoryFilter.addEventListener('change', filterQuizzes);
 </script>
 
 <?php include_once '../includes/footer.php'; ?>

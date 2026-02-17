@@ -32,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($errors)) {
             try {
                 $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'student')");
-                if ($stmt->execute([$username, $email, $password])) { // Store plain password
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                if ($stmt->execute([$username, $email, $hashed_password])) {
                     flash('message', 'Registration Successful!! Please login!!', 'success');
                     redirect('login.php');
                 } else {

@@ -54,7 +54,6 @@
                                 <li><a class="dropdown-item" href="<?php echo base_url('student/profile.php'); ?>"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
                                 <li><a class="dropdown-item" href="<?php echo base_url('student/quizzes.php'); ?>"><i class="fas fa-list-check me-2"></i>My Quizzes</a></li>
                                 <li><a class="dropdown-item" href="<?php echo base_url('student/history.php'); ?>"><i class="fas fa-history me-2"></i>My History</a></li>
-                                <li><a class="dropdown-item" href="<?php echo base_url('student/leaderboard.php'); ?>"><i class="fas fa-trophy me-2"></i>Leaderboard</a></li>
                                 <li><hr class="dropdown-divider border-secondary my-1"></li>
                             <?php else: ?>
                                 <li><a class="dropdown-item" href="<?php echo base_url('admin/settings.php'); ?>"><i class="fas fa-cog me-2"></i>Settings</a></li>

@@ -13,6 +13,9 @@ $query = "
 ";
 $quizzes = $pdo->query($query)->fetchAll();
 
+// Fetch Categories for Filter
+$categories = $pdo->query("SELECT * FROM categories ORDER BY name ASC")->fetchAll();
+
 $pageTitle = 'Available Quizzes';
 include_once '../includes/header.php';
 ?>
