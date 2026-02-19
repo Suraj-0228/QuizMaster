@@ -19,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
 
+        // Email Validation
+        if (strpos($email, '@') === false) {
+            $errors[] = "Email must contain '@'.";
+        }
+        if (substr($email, -4) !== '.com') {
+            $errors[] = "Email must end with '.com'.";
+        }
+
         // Validation - Client side mostly, but check DB
         if (empty($errors)) {
             $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");

@@ -88,9 +88,11 @@ function validateInput(input) {
     }
     // Email Validation
     else if (input.type === 'email' || name === 'email') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-            errorMessage = 'Please enter a valid email address.';
+        if (!value.includes('@')) {
+            errorMessage = "Email must contain '@'.";
+            isValid = false;
+        } else if (!value.endsWith('.com')) {
+            errorMessage = "Email must end with '.com'.";
             isValid = false;
         }
     }

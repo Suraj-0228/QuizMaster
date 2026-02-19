@@ -2,9 +2,9 @@
    DATABASE CREATION
 ========================================= */
 
-DROP DATABASE IF EXISTS quiz_system;
-CREATE DATABASE quiz_system;
-USE quiz_system;
+DROP DATABASE IF EXISTS quizmaster_db;
+CREATE DATABASE quizmaster_db;
+USE quizmaster_db;
 
 
 /* =========================================
@@ -24,7 +24,7 @@ CREATE TABLE users (
 
 /* Default Admin User */
 INSERT INTO users (username, email, password, role, is_blocked, bio)
-VALUES ('admin', 'admin@quiz.com', 'adminPassword', 'admin', 0, 'Default Admin User!');
+VALUES ('admin', 'admin@quiz.com', '$2y$10$w6lKvOAg7VlNeKCEOD89Fux3TD/1V6pDJLIKfwJUpdWZ1jaG2HumG', 'admin', 0, 'Default Admin User!');
 
 
 /* =========================================
