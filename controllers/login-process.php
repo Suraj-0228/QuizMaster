@@ -22,8 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = null; // Initialize
     // if (empty($email) || empty($password)) { $error = ... } REMOVED per user request
     
-    // Proceed directly to DB check
-    {
+    if (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/', $email)) {
+        $error = "invalid email id";
+    }
+
+    if (empty($error)) {
         // Check for blocked status
         $stmt = $pdo->prepare("SELECT id, username, password, role, is_blocked FROM users WHERE email = ? OR username = ?");
         $stmt->execute([$email, $email]);

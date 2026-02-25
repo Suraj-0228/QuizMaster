@@ -28,17 +28,24 @@
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <form action="" method="POST" id="quizForm">
+            <?php 
+                $total_questions = count($questions);
+                $time_per_question = $quiz['time_limit'] > 0 ? floor(($quiz['time_limit'] * 60) / $total_questions) : 0;
+            ?>
+            
             <?php foreach($questions as $index => $q): ?>
-                <div class="card mb-5 border-0 shadow-lg glass-card position-relative overflow-hidden" id="q_<?php echo $q['id']; ?>">
+                <div class="card mb-5 border-0 shadow-lg glass-card position-relative overflow-hidden question-card" id="q_<?php echo $index; ?>" style="<?php echo $index > 0 ? 'display: none;' : ''; ?>">
                     <div class="position-absolute top-0 start-0 w-100 bg-gradient-primary" style="height: 4px;"></div>
                     <div class="card-body p-4 p-md-5">
-                        <div class="d-flex mb-4">
-                            <span class="display-4 text-muted opacity-25 me-3" style="line-height: 1;">
-                                <?php echo sprintf("%02d", $index + 1); ?>
-                            </span>
-                            <h4 class="card-title text-light mb-0 pt-2" style="line-height: 1.4;">
-                                <?php echo sanitize($q['question_text']); ?>
-                            </h4>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="d-flex">
+                                <span class="display-4 text-muted opacity-25 me-3" style="line-height: 1;">
+                                    <?php echo sprintf("%02d", $index + 1); ?>
+                                </span>
+                                <h4 class="card-title text-light mb-0 pt-2" style="line-height: 1.4;">
+                                    <?php echo sanitize($q['question_text']); ?>
+                                </h4>
+                            </div>
                         </div>
                         
                         <?php 
@@ -58,167 +65,137 @@
                                 </div>
                             <?php endforeach; ?>
                         </div>
+
+                        <div class="d-flex flex-column flex-md-row gap-3 mt-5">
+                            <button type="button" onclick="cancelQuiz()" class="btn btn-outline-danger py-3 rounded-pill fw-bold tracking-wider w-100">
+                                Cancel Quiz <i class="fas fa-times ms-2"></i>
+                            </button>
+                            <?php if ($index == $total_questions - 1): ?>
+                                <button type="button" class="btn btn-gradient-primary py-3 rounded-pill shadow-lg text-uppercase fw-bold tracking-wider next-btn w-100">
+                                    Submit Quiz <i class="fas fa-paper-plane ms-2"></i>
+                                </button>
+                            <?php else: ?>
+                                <button type="button" class="btn btn-gradient-primary py-3 rounded-pill shadow-lg text-uppercase fw-bold tracking-wider next-btn w-100">
+                                    Next Question <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
-            
-            <div class="d-grid mb-5 pb-5">
-                <button type="submit" class="btn btn-gradient-primary btn-lg py-3 rounded-pill shadow-lg text-uppercase fw-bold tracking-wider">
-                    Submit Quiz <i class="fas fa-paper-plane ms-2"></i>
-                </button>
-            </div>
         </form>
     </div>
 </div>
 
-<style>
-/* Glass Effect */
-.bg-dark-glass {
-    background-color: rgba(13, 27, 42, 0.95);
-    backdrop-filter: blur(10px);
-}
-.glass-card {
-    background: rgba(27, 38, 59, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(119, 141, 169, 0.1);
-}
-
-/* Options Styling */
-.options-grid {
-    display: grid;
-    gap: 15px;
-}
-.option-item {
-    position: relative;
-}
-.option-input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-.option-label {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    background: rgba(13, 27, 42, 0.5);
-    border: 2px solid rgba(119, 141, 169, 0.2);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-.option-label:hover {
-    background: rgba(65, 90, 119, 0.2);
-    border-color: var(--dusk-blue);
-}
-.option-input:checked + .option-label {
-    background: rgba(65, 90, 119, 0.3);
-    border-color: var(--primary);
-    box-shadow: 0 0 15px rgba(65, 90, 119, 0.2);
-}
-
-/* Custom Radio Circle */
-.check-circle {
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--secondary);
-    border-radius: 50%;
-    margin-right: 15px;
-    position: relative;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-.option-input:checked + .option-label .check-circle {
-    border-color: var(--primary);
-    background-color: var(--primary);
-}
-.check-circle::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 10px;
-    height: 10px;
-    background-color: white;
-    border-radius: 50%;
-    transition: transform 0.2s ease;
-}
-.option-input:checked + .option-label .check-circle::after {
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.option-text {
-    color: var(--light-text);
-    font-size: 1.05rem;
-}
-.option-input:checked + .option-label .option-text {
-    color: white;
-    font-weight: 500;
-}
-
-/* Gradient Button */
-.btn-gradient-primary {
-    background: linear-gradient(135deg, var(--dusk-blue) 0%, #2c3e50 100%);
-    border: none;
-    color: white;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.btn-gradient-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    color: white;
-}
-.tracking-wider { letter-spacing: 1px; }
-
-/* Timer Pulse */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-.timer-warning {
-    animation: pulse 1s infinite;
-    background-color: #ef4444 !important;
-    color: white !important;
-}
-</style>
-
-<?php if($quiz['time_limit'] > 0): ?>
 <script>
-    // Robust Timer
-    let timeLimit = <?php echo $quiz['time_limit']; ?> * 60; // seconds
+    let currentQuestionIndex = 0;
+    const totalQuestions = <?php echo $total_questions ?? 0; ?>;
+    const form = document.getElementById('quizForm');
+    
+    <?php if(isset($time_per_question) && $time_per_question > 0): ?>
+    
+    const timePerQuestion = <?php echo $time_per_question; ?>; // seconds
+    let currentTimeLimit = timePerQuestion;
+    let timerInterval;
+    
     const timerDisplay = document.getElementById('time-remaining');
     const timerBadge = document.querySelector('.timer-badge');
     
+    function startTimer() {
+        currentTimeLimit = timePerQuestion;
+        timerBadge.classList.remove('timer-warning');
+        updateTimerDisplay();
+        
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            currentTimeLimit--;
+            updateTimerDisplay();
+            
+            if (currentTimeLimit < 10) {
+                timerBadge.classList.add('timer-warning');
+            }
+            
+            if (currentTimeLimit <= 0) {
+                clearInterval(timerInterval);
+                advanceQuestion(true);
+            }
+        }, 1000);
+    }
+    
+    function updateTimerDisplay() {
+        const minutes = Math.floor(currentTimeLimit / 60);
+        const seconds = currentTimeLimit % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+    
+    <?php endif; ?>
+
     // Prevent accidental navigation
     window.onbeforeunload = function() {
         return "Are you sure? Your quiz progress will be lost.";
     };
     
-    // Handle form submit to remove warning
-    document.getElementById('quizForm').onsubmit = function() {
+    function advanceQuestion(isAutoAdvance = false) {
+        const currentCard = document.getElementById(`q_${currentQuestionIndex}`);
+        
+        if (!isAutoAdvance) {
+            const checkedOption = currentCard.querySelector('input[type="radio"]:checked');
+            if (!checkedOption) {
+                let errorTxt = currentCard.querySelector('.error-text');
+                if (!errorTxt) {
+                    errorTxt = document.createElement('p');
+                    errorTxt.className = 'error-text text-danger mt-4 mb-0 text-center fw-bold';
+                    errorTxt.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Please, Select an Answer Before Proceeding!!';
+                    currentCard.querySelector('.card-body').appendChild(errorTxt);
+                    
+                    setTimeout(() => errorTxt.remove(), 3500);
+                }
+                return;
+            }
+        }
+
+        currentCard.style.display = 'none';
+        
+        currentQuestionIndex++;
+        
+        if (currentQuestionIndex < totalQuestions) {
+            const nextCard = document.getElementById(`q_${currentQuestionIndex}`);
+            nextCard.style.display = 'block';
+            
+            <?php if(isset($time_per_question) && $time_per_question > 0): ?>
+            startTimer();
+            <?php endif; ?>
+        } else {
+            submitQuiz();
+        }
+    }
+
+    function submitQuiz() {
         window.onbeforeunload = null;
-    };
-    
-    const timerInterval = setInterval(() => {
-        const minutes = Math.floor(timeLimit / 60);
-        const seconds = timeLimit % 60;
-        
-        timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        
-        // Visual warning when low
-        if (timeLimit < 60) {
-            timerBadge.classList.add('timer-warning');
-        }
-        
-        if (timeLimit <= 0) {
-            clearInterval(timerInterval);
+        <?php if(isset($time_per_question) && $time_per_question > 0): ?>
+        clearInterval(timerInterval);
+        <?php endif; ?>
+        form.submit();
+    }
+
+    function cancelQuiz() {
+        if(confirm("Are you sure you want to cancel the quiz? Your progress will be lost!!")) {
             window.onbeforeunload = null;
-            document.getElementById('quizForm').submit();
+            window.location.href = 'quizzes.php';
         }
-        timeLimit--;
-    }, 1000);
+    }
+
+    // Attach event listeners to next buttons
+    document.querySelectorAll('.next-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            advanceQuestion(false);
+        });
+    });
+
+    // Start timer for the first question
+    <?php if(isset($time_per_question) && $time_per_question > 0): ?>
+    startTimer();
+    <?php endif; ?>
 </script>
-<?php endif; ?>
 
 <?php include_once '../includes/footer.php'; ?>

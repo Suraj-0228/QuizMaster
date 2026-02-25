@@ -14,7 +14,11 @@
                 <div class="position-absolute top-0 start-50 translate-middle bg-primary opacity-10 rounded-circle" style="width: 200px; height: 200px; filter: blur(60px);"></div>
                 
                 <div class="profile-avatar-floating mx-auto mb-4 position-relative" style="margin-top: 0;">
-                    <span class="fw-bold"><?php echo strtoupper(substr($user['username'], 0, 1)); ?></span>
+                    <?php if (!empty($user['profile_pic'])): ?>
+                        <img src="../assets/images/profiles/<?php echo sanitize($user['profile_pic']); ?>" alt="Profile Picture" class="w-100 h-100 rounded-circle" style="object-fit: cover;">
+                    <?php else: ?>
+                        <span class="fw-bold"><?php echo strtoupper(substr($user['username'], 0, 1)); ?></span>
+                    <?php endif; ?>
                     <div class="position-absolute bottom-0 end-0 p-2 bg-success border border-dark rounded-circle me-1 mb-1 shadow"></div>
                 </div>
             
@@ -29,6 +33,15 @@
                         <i class="fas fa-check-circle text-success me-1"></i> Active
                     </span>
                 </div>
+                
+                <?php if (!empty($user['profile_pic'])): ?>
+                <form action="" method="POST" class="mb-4" onsubmit="return confirm('Are you sure you want to remove your profile picture?');">
+                    <input type="hidden" name="remove_profile_pic_only" value="1">
+                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm transition-hover">
+                        <i class="fas fa-trash-alt me-1"></i> Remove Picture
+                    </button>
+                </form>
+                <?php endif; ?>
                 
                 <hr class="border-secondary opacity-25 my-4">
                 
@@ -112,8 +125,6 @@
                             <p class="text-muted mb-0">
                                 <?php if (!empty($user['bio'])): ?>
                                     <?php echo nl2br(sanitize($user['bio'])); ?>
-                                <?php else: ?>
-                                    Hello, I'm <strong class="text-light"><?php echo sanitize($user['username']); ?></strong>. I'm a passionate learner using QuizMaster to improve my skills. Challenge me to a quiz!
                                 <?php endif; ?>
                             </p>
                         </div>
@@ -230,9 +241,27 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-5">
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="update_profile" value="1">
                     
+                    <div class="text-center mb-4">
+                        <label for="profileUpload" class="cursor-pointer position-relative d-inline-block">
+                            <div class="profile-avatar-floating mx-auto mb-2" style="width: 80px; height: 80px; font-size: 32px;">
+                                <?php if (!empty($user['profile_pic'])): ?>
+                                    <img src="../assets/images/profiles/<?php echo sanitize($user['profile_pic']); ?>" alt="Profile" class="w-100 h-100 rounded-circle" style="object-fit: cover;">
+                                <?php else: ?>
+                                    <span class="fw-bold"><?php echo strtoupper(substr($user['username'], 0, 1)); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center shadow" 
+                                 style="width: 32px; height: 32px; bottom: 10px; right: -5px; border: 3px solid #1b263b; cursor: pointer; transition: transform 0.2s ease;">
+                                <i class="fas fa-camera text-white" style="font-size: 14px;"></i>
+                            </div>
+                        </label>
+                        <input type="file" id="profileUpload" name="profile_pic" class="d-none" accept="image/jpeg,image/png,image/gif">
+                        <p class="text-muted small mb-0 mt-2">Click to update picture (JPG, PNG, GIF Max 2MB)</p>
+                    </div>
+
                     <div class="row g-4 mb-4">
                         <div class="col-md-6">
                             <label class="form-label text-light small fw-bold mb-2">USERNAME</label>

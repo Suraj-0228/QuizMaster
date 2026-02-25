@@ -19,6 +19,7 @@ CREATE TABLE users (
     role ENUM('admin', 'student') NOT NULL DEFAULT 'student',
     is_blocked TINYINT(1) DEFAULT 0,
     bio TEXT DEFAULT NULL,
+    profile_pic VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

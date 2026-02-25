@@ -20,11 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $confirm_password = $_POST['confirm_password'];
 
         // Email Validation
-        if (strpos($email, '@') === false) {
-            $errors[] = "Email must contain '@'.";
-        }
-        if (substr($email, -4) !== '.com') {
-            $errors[] = "Email must end with '.com'.";
+        if (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/', $email)) {
+            $errors[] = "Invalid Email ID!! Email must be in (example@gmail.com) Format.";
         }
 
         // Validation - Client side mostly, but check DB
@@ -39,9 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Process registration
         if (empty($errors)) {
             try {
-                $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'student')");
+                $default_bio = "Hello, I'm " . $username . ". I'm a passionate learner using QuizMaster to improve my skills. Challenge me to a quiz!";
+                $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role, bio) VALUES (?, ?, ?, 'student', ?)");
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                if ($stmt->execute([$username, $email, $hashed_password])) {
+                if ($stmt->execute([$username, $email, $hashed_password, $default_bio])) {
                     flash('message', 'Registration Successful!! Please login!!', 'success');
                     redirect('login.php');
                 } else {

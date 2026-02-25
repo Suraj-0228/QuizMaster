@@ -88,11 +88,9 @@ function validateInput(input) {
     }
     // Email Validation
     else if (input.type === 'email' || name === 'email') {
-        if (!value.includes('@')) {
-            errorMessage = "Email must contain '@'.";
-            isValid = false;
-        } else if (!value.endsWith('.com')) {
-            errorMessage = "Email must end with '.com'.";
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        if (!emailRegex.test(value)) {
+            errorMessage = "Invalid Email ID!! Email must be in (example@gmail.com) Format.";
             isValid = false;
         }
     }
