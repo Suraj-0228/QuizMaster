@@ -20,12 +20,14 @@ CREATE TABLE users (
     is_blocked TINYINT(1) DEFAULT 0,
     bio TEXT DEFAULT NULL,
     profile_pic VARCHAR(255) DEFAULT NULL,
+    reset_token VARCHAR(64) DEFAULT NULL,
+    reset_token_expires_at DATETIME DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /* Default Admin User */
 INSERT INTO users (username, email, password, role, is_blocked, bio)
-VALUES ('admin', 'admin@quiz.com', '$2y$10$w6lKvOAg7VlNeKCEOD89Fux3TD/1V6pDJLIKfwJUpdWZ1jaG2HumG', 'admin', 0, 'Default Admin User!');
+VALUES ('admin', 'quizmastera524@gmail.com', '$2y$10$w6lKvOAg7VlNeKCEOD89Fux3TD/1V6pDJLIKfwJUpdWZ1jaG2HumG', 'admin', 0, 'Default Admin User!');
 
 
 /* =========================================

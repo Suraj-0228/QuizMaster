@@ -14,11 +14,11 @@
             </div>
             <div>
                 <h5 class="text-light mb-1">Email Us</h5>
-                <p class="text-muted mb-0">support@quizmaster.com</p>
+                <p class="text-muted mb-0">quizmastera524@gmail.com</p>
             </div>
         </div>
         
-        <div class="d-flex align-items-center mb-4">
+        <div class="d-flex align-items-center mb-4">    
             <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3 flex-shrink-0">
                 <i class="fas fa-phone fa-2x text-success"></i>
             </div>

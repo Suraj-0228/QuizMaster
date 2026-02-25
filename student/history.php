@@ -63,6 +63,12 @@
                                             <h3 class="<?php echo $passed ? 'text-success' : 'text-danger'; ?> fw-bold mb-0"><?php echo round($percentage); ?>%</h3>
                                         </div>
                                         <div class="d-flex gap-2">
+                                            <?php if ($percentage >= 75): ?>
+                                            <a href="download-certificate.php?attempt_id=<?php echo $item['id']; ?>" class="btn btn-sm btn-outline-warning rounded-pill" title="Download Certificate" target="_blank">
+                                                <i class="fas fa-award"></i>
+                                            </a>
+                                            <?php endif; ?>
+                                            
                                             <a href="results.php?attempt_id=<?php echo $item['id']; ?>" class="btn btn-sm btn-outline-light rounded-pill" title="View Result">
                                                 <i class="fas fa-chart-bar"></i>
                                             </a>

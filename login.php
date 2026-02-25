@@ -59,7 +59,7 @@
                             <input class="form-check-input bg-transparent border-secondary" type="checkbox" id="remember">
                             <label class="form-check-label text-muted small" for="remember">Remember me</label>
                         </div>
-                        <a href="#" class="text-danger text-decoration-none small">Forgot Password?</a>
+                        <a href="forgot-password.php" class="text-danger text-decoration-none small hover-glow">Forgot Password?</a>
                     </div>
 
                     <div class="d-grid mb-4">

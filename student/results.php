@@ -72,9 +72,16 @@
                 </div>
                 
                 <div class="d-grid gap-3 col-lg-10 mx-auto">
+                    <?php if ($percentage >= 75): ?>
+                        <a href="download-certificate.php?attempt_id=<?php echo $attempt_id; ?>" class="btn btn-warning btn-lg rounded-pill shadow-lg hover-scale text-dark fw-bold" target="_blank">
+                            <i class="fas fa-award me-2"></i> Download Certificate
+                        </a>
+                    <?php endif; ?>
+                    
                     <a href="review.php?attempt_id=<?php echo $attempt_id; ?>" class="btn btn-gradient-primary btn-lg rounded-pill shadow-lg hover-scale">
                         <span class="fw-bold">Review Answers</span> <i class="fas fa-arrow-right ms-2"></i>
                     </a>
+                    
                     <div class="row g-3">
                         <div class="col-6">
                              <a href="quizzes.php" class="btn btn-outline-light w-100 rounded-pill py-2">Try Another</a>

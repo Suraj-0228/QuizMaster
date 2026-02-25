@@ -72,6 +72,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update_stmt = $pdo->prepare("UPDATE quiz_attempts SET score = ?, correct_answers = ? WHERE id = ?");
         $update_stmt->execute([$score, $correct_answers_count, $attempt_id]);
         
+        $percentage = ($total_questions > 0) ? round(($score / $total_questions) * 100, 2) : 0;
+        
+        // Fetch User Email
+        $user_stmt = $pdo->prepare("SELECT email, username FROM users WHERE id = ?");
+        $user_stmt->execute([$user_id]);
+        $user = $user_stmt->fetch();
+        
+        if ($user) {
+            // Send Results Email
+            require_once __DIR__ . '/../includes/mail_helper.php';
+            $subject = "Quiz Results: {$quiz['title']}";
+            $body = '
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <div style="background-color: #4a90e2; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+                    <h1 style="color: white; margin: 0; font-size: 24px;">Quiz Results Ready!</h1>
+                </div>
+                <div style="background-color: white; padding: 30px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <h2 style="color: #333; margin-top: 0;">Hello ' . $user['username'] . '!</h2>
+                    <p style="color: #555; font-size: 16px; line-height: 1.5;">You have successfully completed the quiz: <br><strong style="color: #4a90e2; font-size: 18px;">' . $quiz['title'] . '</strong></p>
+                    
+                    <div style="background-color: #f0f7ff; border-left: 4px solid #4a90e2; padding: 15px; margin: 25px 0;">
+                        <h3 style="margin: 0; color: #333; font-size: 16px;">Your Score Performance</h3>
+                        <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: #4a90e2;">
+                            ' . $score . ' <span style="font-size: 16px; color: #777; font-weight: normal;">/ ' . $total_questions . ' (' . $percentage . '%)</span>
+                        </p>
+                    </div>
+                    
+                    <p style="color: #777; font-size: 14px; text-align: center; margin-top: 30px;">Keep up the great work and take more quizzes to improve your skills!</p>
+                </div>
+            </div>';
+            
+            sendEmail($user['email'], $user['username'], $subject, $body);
+        }
+        
         $pdo->commit();
         redirect("results.php?attempt_id=$attempt_id");
         

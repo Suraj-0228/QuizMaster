@@ -7,18 +7,22 @@
         <p class="text-muted lead">Choose a topic and challenge yourself today.</p>
     </div>
     <div class="col-md-6">
-        <div class="d-flex gap-2">
+        <form action="quizzes.php" method="GET" class="d-flex gap-2" id="filterForm">
             <div class="position-relative flex-grow-1">
-                <input type="text" id="quizSearch" class="form-control bg-dark-glass border-secondary text-light ps-5 rounded-pill" placeholder="Search for quizzes...">
+                <input type="text" name="search" class="form-control bg-dark-glass border-secondary text-light ps-5 rounded-pill" placeholder="Search for quizzes..." value="<?php echo htmlspecialchars($searchQuery ?? ''); ?>">
                 <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
             </div>
-            <select id="categoryFilter" class="px-3 form-select bg-dark-glass border-secondary text-light rounded-pill" style="max-width: 200px;">
+            <select name="category" class="px-3 form-select bg-dark-glass border-secondary text-light rounded-pill" style="max-width: 200px;" onchange="document.getElementById('filterForm').submit();">
                 <option value="">All Categories</option>
                 <?php foreach($categories as $category): ?>
-                    <option value="<?php echo sanitize($category['name']); ?>"><?php echo sanitize($category['name']); ?></option>
+                    <option value="<?php echo sanitize($category['name']); ?>" <?php echo (isset($categoryFilter) && $categoryFilter === $category['name']) ? 'selected' : ''; ?>>
+                        <?php echo sanitize($category['name']); ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
-        </div>
+            <!-- Hidden submit button for search input Enter key -->
+            <button type="submit" class="d-none">Search</button>
+        </form>
     </div>
 </div>
 
@@ -65,40 +69,101 @@
             <div class="mb-3">
                 <i class="fas fa-box-open fa-4x text-muted opacity-25"></i>
             </div>
-            <h4 class="text-muted">No quizzes available yet.</h4>
-            <p class="text-muted small">Check back later for new challenges!</p>
+            <h4 class="text-muted">No quizzes available for this query.</h4>
+            <p class="text-muted small">Try adjusting your filters or search terms.</p>
+            <a href="quizzes.php" class="btn btn-outline-light mt-3 rounded-pill">Clear Filters</a>
         </div>
     <?php endif; ?>
 </div>
 
-<script>
-const searchInput = document.getElementById('quizSearch');
-const categoryFilter = document.getElementById('categoryFilter');
-const quizItems = document.querySelectorAll('.quiz-item');
+<!-- Pagination Controls -->
+<?php if (isset($total_pages) && $total_pages > 1): ?>
+<div class="row mt-5">
+    <div class="col-12 d-flex justify-content-center">
+        <nav aria-label="Quiz page navigation">
+            <ul class="pagination pagination-lg custom-pagination shadow-lg">
+                
+                <?php 
+                // Build the base query string to preserve search/category filters across pages
+                $queryParams = $_GET;
+                unset($queryParams['page']); // Remove current page from params
+                $queryString = http_build_query($queryParams);
+                $queryString = $queryString ? '&' . $queryString : ''; 
+                ?>
 
-function filterQuizzes() {
-    const searchText = searchInput.value.toLowerCase();
-    const selectedCategory = categoryFilter.value.toLowerCase();
+                <!-- Previous Button -->
+                <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $page - 1; ?><?php echo $queryString; ?>" tabindex="-1" aria-disabled="<?php echo ($page <= 1) ? 'true' : 'false'; ?>">
+                        <i class="fas fa-chevron-left me-1"></i> Prev
+                    </a>
+                </li>
+                
+                <!-- Page Numbers -->
+                <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                    <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $i; ?><?php echo $queryString; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+                
+                <!-- Next Button -->
+                <li class="page-item <?php echo ($page >= $total_pages) ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $page + 1; ?><?php echo $queryString; ?>">
+                        Next <i class="fas fa-chevron-right ms-1"></i>
+                    </a>
+                </li>
 
-    quizItems.forEach(item => {
-        const title = item.querySelector('.card-title').textContent.toLowerCase();
-        const category = item.querySelector('.category-badge').textContent.toLowerCase();
-        
-        const matchesSearch = title.includes(searchText);
-        const matchesCategory = selectedCategory === '' || category.includes(selectedCategory); // strict equality might not work if badge has whitespace, includes is safer or trim()
+            </ul>
+        </nav>
+    </div>
+</div>
+<?php endif; ?>
 
-        if (matchesSearch && matchesCategory) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-
-    // Show/Hide "No results" message if needed (optional enhancement)
+<style>
+/* Custom Dark Theme Pagination Styles */
+.custom-pagination .page-link {
+    background-color: rgba(27, 38, 59, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(119, 141, 169, 0.2);
+    color: #f1f5f9;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.3s ease;
 }
 
-searchInput.addEventListener('keyup', filterQuizzes);
-categoryFilter.addEventListener('change', filterQuizzes);
-</script>
+.custom-pagination .page-item:first-child .page-link {
+    border-top-left-radius: 50rem;
+    border-bottom-left-radius: 50rem;
+    padding-left: 1.5rem;
+}
+
+.custom-pagination .page-item:last-child .page-link {
+    border-top-right-radius: 50rem;
+    border-bottom-right-radius: 50rem;
+    padding-right: 1.5rem;
+}
+
+.custom-pagination .page-item:not(.active):not(.disabled) .page-link:hover {
+    background-color: rgba(119, 141, 169, 0.2);
+    border-color: rgba(119, 141, 169, 0.4);
+    transform: translateY(-2px);
+    z-index: 2;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #0d6efd 0%, #2563eb 100%);
+    border-color: #0d6efd;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    background-color: rgba(15, 23, 42, 0.4);
+    color: rgba(241, 245, 249, 0.3);
+    border-color: rgba(119, 141, 169, 0.1);
+    cursor: not-allowed;
+}
+</style>
 
 <?php include_once '../includes/footer.php'; ?>
