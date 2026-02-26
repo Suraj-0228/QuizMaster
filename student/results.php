@@ -31,7 +31,7 @@
                             />
                         </svg>
                         <div class="chart-content">
-                            <div class="display-4 fw-bold text-light mb-0 tracking-tight"><?php echo round($percentage); ?>%</div>
+                            <div class="fw-bold text-light mb-0 tracking-tight" style="font-size: 3rem;"><?php echo round($percentage); ?>%</div>
                             <div class="small fw-bold text-uppercase tracking-wider <?php echo $passed ? 'text-success' : 'text-danger'; ?>">
                                 <?php echo $passed ? 'PASSED' : 'FAILED'; ?>
                             </div>
